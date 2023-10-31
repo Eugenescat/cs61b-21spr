@@ -106,6 +106,14 @@ public class Model extends Observable {
      *    value, then the leading two tiles in the direction of motion merge,
      *    and the trailing tile does not.
      * */
+
+    /** helper
+     */
+    public void squeezeSpace(int c, int r){
+        Tile t = board.tile(c, r);
+
+    }
+
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
@@ -113,6 +121,47 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+
+        board.setViewingPerspective(side);
+
+        for (int c = 0; c < board.size(); c++){
+            for (int r = (board.size() - 1); r >= 0; r--){
+                // if the tile is empty, search followed to find tile WITH value to replace it
+                if (board.tile(c, r) == null && (r-1) >=0){
+                    for (int r1 = r - 1; r1 >= 0; r1--){
+                        Tile t1 = board.tile(c, r1);
+                        if (t1 != null) {
+                            board.move(c, r, t1);
+                            changed = true;
+                            // after moving the new tile, search followed to find if there's any tile to merge with
+                            for (int r2 = r1 - 1; r2 >= 0; r2--){
+                                Tile t2 = board.tile(c, r2);
+                                if (board.tile(c, r2) != null && board.tile(c, r).value() == board.tile(c, r2).value()) {
+                                    board.move(c, r, t2);
+                                    score += board.tile(c, r).value();
+                                }
+                            }
+                            break;
+                        }
+                    }
+                // if the tile is not empty, search followed to find if there's any tile to merge with
+                }else if (board.tile(c, r) != null && (r-1) >=0){
+                    for (int r3 = r - 1; r3 >= 0; r3--) {
+                        Tile t = board.tile(c, r3);
+                        if (t != null && board.tile(c, r).value() == board.tile(c, r3).value()){
+                            board.move(c, r, t);
+                            changed = true;
+                            score += board.tile(c, r).value();
+                            break;
+                        }else if(t != null && board.tile(c, r).value() != board.tile(c, r3).value()){
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        board.setViewingPerspective(Side.NORTH);
 
         checkGameOver();
         if (changed) {
@@ -138,6 +187,17 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        int i = 0;
+        while (i < b.size()){
+            int j = 0;
+            while ( j < b.size()){
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+                j = j + 1;
+            }
+            i = i + 1;
+        }
         return false;
     }
 
@@ -148,6 +208,17 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        int i = 0;
+        while (i < b.size()){
+            int j = 0;
+            while ( j < b.size()){
+                if (b.tile(i, j) != null && b.tile(i, j).value() == MAX_PIECE) {
+                    return true;
+                }
+                j = j + 1;
+            }
+            i = i + 1;
+        }
         return false;
     }
 
@@ -159,9 +230,47 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        /**
+         * Returns true if there are at least on pair in rows.
+         */
+        if (emptySpaceExists(b) || atLeastOnePairInRow(b) || atLeastOnePairInColum(b)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /** Helper. */
+    private static boolean atLeastOnePairInRow(Board b1){
+        int i = 0;
+        while (i < b1.size()){
+            int j = 0;
+            while ( j < (b1.size()- 1)){
+                if (b1.tile(i, j) != null && b1.tile(i, j).value() == b1.tile(i, j+1).value()) {
+                    return true;
+                }
+                j = j + 1;
+            }
+            i = i + 1;
+        }
         return false;
     }
 
+    /** Helper. */
+    private static boolean atLeastOnePairInColum(Board b1){
+        int i = 0;
+        while (i < (b1.size() - 1)){
+            int j = 0;
+            while ( j < b1.size()){
+                if (b1.tile(i, j) != null && b1.tile(i, j).value() == b1.tile(i + 1, j).value()) {
+                    return true;
+                }
+                j = j + 1;
+            }
+            i = i + 1;
+        }
+        return false;
+    }
 
     @Override
      /** Returns the model as a string, used for debugging. */
