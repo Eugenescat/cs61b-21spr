@@ -33,7 +33,7 @@ public class TimeSLList {
         Ns.addLast(16000);
         Ns.addLast(32000);
         Ns.addLast(64000);
-        Ns.addLast(128000);
+        Ns.addLast(350000);
 
         for (int s = 0; s < Ns.size(); s++){
             opCounts.addLast(1000);
