@@ -75,6 +75,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst(){
+        if (size == 0){
+            return null;
+        }
         int theFirstElementIndex = (firstIndex + 1) % array.length;
         T theFirstElement = array[theFirstElementIndex];
         array[theFirstElementIndex] = null;
@@ -87,6 +90,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast(){
+        if (size == 0){
+            return null;
+        }
         int theLastElementIndex = (lastIndex - 1 + array.length) % array.length;
         T theLastElement = array[theLastElementIndex];
         array[theLastElementIndex] = null;
