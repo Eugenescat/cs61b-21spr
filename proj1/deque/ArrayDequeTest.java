@@ -5,6 +5,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import java.lang.reflect.Array;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by hug.
@@ -22,6 +23,9 @@ public class ArrayDequeTest {
       al.addLast(6);
       bl.addLast(6);
 
+      boolean u = al.equals(bl);
+      assertTrue(u);
+
       int i = al.removeLast();
       int t = bl.removeLast();
       assertEquals(i, t);
@@ -33,31 +37,10 @@ public class ArrayDequeTest {
       int r = al.removeLast();
       int s = bl.removeLast();
       assertEquals(r, s);
+
+      System.out.print(al.getClass());
   }
 
-    public static void testAddAndRemove(){
-        LinkedListDeque<Integer> al = new LinkedListDeque<>();
-        ArrayDeque<Integer> bl = new ArrayDeque<>();
-
-        al.addLast(4);
-        bl.addLast(4);
-        al.addLast(5);
-        bl.addLast(5);
-        al.addLast(6);
-        bl.addLast(6);
-
-        int i = al.removeLast();
-        int t = bl.removeLast();
-        assertEquals(i, t);
-
-        int p = al.removeLast();
-        int q = bl.removeLast();
-        assertEquals(p, q);
-
-        int r = al.removeLast();
-        int s = bl.removeLast();
-        assertEquals(r, s);
-    }
 
   public static void randomizedTest(){
       LinkedListDeque<Integer> L = new LinkedListDeque<>();
@@ -94,7 +77,7 @@ public class ArrayDequeTest {
   }
 
   public static void main(String[] args) {
-      randomizedTest();
-      // testThreeAddThreeRemove();
+      //randomizedTest();
+      testThreeAddThreeRemove();
   }
 }
