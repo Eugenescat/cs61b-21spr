@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T>{
+public class LinkedListDeque<T> implements Deque<T>{
     public static class IntNode<T>{
         public T data;
         public IntNode<T> pre;
@@ -38,10 +38,6 @@ public class LinkedListDeque<T>{
         last.next = sentinel;
         sentinel.pre = last;
         size += 1;
-    }
-
-    public boolean isEmpty(){
-        return size == 0;
     }
 
     public int size(){
