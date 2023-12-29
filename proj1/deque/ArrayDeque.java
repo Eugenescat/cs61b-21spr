@@ -1,7 +1,7 @@
 package deque;
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Deque<T>{
+public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     private int size;
     private T[] array;
     private int firstIndex;
@@ -31,7 +31,7 @@ public class ArrayDeque<T> implements Deque<T>{
         size += 1;
     }
 
-    public void resize(int n){
+    private void resize(int n){
         T[] biggerArray = (T[]) new Object[n];
         /*
         if (firstIndex > 0 && lastIndex < firstIndex){

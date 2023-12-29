@@ -2,8 +2,8 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T>{
-    public static class IntNode<T>{
+public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
+    private static class IntNode<T>{
         public T data;
         public IntNode<T> pre;
         public IntNode<T> next;
