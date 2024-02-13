@@ -192,9 +192,14 @@ public class Repository {
     }
 
     /** print global log.
-     * ToDo: how to use Utils.plainFilenamesIn to print global log
+     * use Utils.plainFilenamesIn to print global log
      * as the commits are stored as tree. */
     public void printGlobalLog() {
-        commitTree.traverseTree(commitTree.getRoot());
+        File dir = join(GITLET_DIR, "commits");
+        for (String fileName : plainFilenamesIn(dir)) {
+            File file = join(dir, fileName);
+            Commit commit = readObject(file, Commit.class);
+            commit.log();
+        }
     }
 }
